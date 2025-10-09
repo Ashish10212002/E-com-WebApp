@@ -20,12 +20,15 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/")
                 .setViewName("forward:/index.html");
 
-        // Forward paths with no trailing slash (e.g., /products) to index.html
-        registry.addViewController("/{spring:[\\w-]+}")
+        // Forward single-segment paths (e.g., /products) to index.html
+        // The AntPathMatcher setting in application.properties is essential for these patterns to work.
+        registry.addViewController("/*")
                 .setViewName("forward:/index.html"); 
         
-        // Forward paths with multiple segments (e.g., /admin/dashboard) to index.html
-        registry.addViewController("/**/{spring:[\\w-]+}")
+        // Forward multi-segment paths (e.g., /admin/dashboard) to index.html
+        registry.addViewController("/**")
                 .setViewName("forward:/index.html");
     }
 }
+
+
