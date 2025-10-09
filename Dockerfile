@@ -1,14 +1,15 @@
 # --- STAGE 1: BUILD (Creates the JAR) ---
-# Using the official, generic Maven 3 with OpenJDK 17 image
-FROM maven:3-openjdk-17 AS build 
+# Using Eclipse Temurin JDK 17 Alpine image for a reliable build environment
+FROM eclipse-temurin:17-jdk-alpine AS build 
 WORKDIR /app
+# Copy the source code into the build container
 COPY . .
-# Run the Maven command to compile and create the JAR file in the 'target' folder
+# Run the Maven command to compile and package the application
 RUN mvn clean package -DskipTests 
 
 # --- STAGE 2: RUN (Use lighter JRE image) ---
-# Using the official OpenJDK JRE 17 Alpine image for runtime
-FROM openjdk:17-jre-alpine
+# Using the Eclipse Temurin JRE 17 Alpine image for a small, fast runtime
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 # Copy the built JAR file from the 'build' stage memory
 COPY --from=build /app/target/web-proj-0.0.1-SNAPSHOT.jar app.jar
