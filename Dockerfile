@@ -1,12 +1,13 @@
-# --- STAGE 1: BUILD (Use standard Maven base image) ---
-# Simplified tag: Maven 3 with OpenJDK 17
-FROM maven:3.9-openjdk-17 AS build 
+# --- STAGE 1: BUILD (Creates the JAR) ---
+# Using the official, generic Maven 3 with OpenJDK 17 image
+FROM maven:3-openjdk-17 AS build 
 WORKDIR /app
 COPY . .
 # Run the Maven command to compile and create the JAR file in the 'target' folder
 RUN mvn clean package -DskipTests 
 
 # --- STAGE 2: RUN (Use lighter JRE image) ---
+# Using the official OpenJDK JRE 17 slim image for runtime
 FROM openjdk:17-jre-slim
 WORKDIR /app
 # Copy the built JAR file from the 'build' stage memory
