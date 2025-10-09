@@ -5,31 +5,27 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Configuration class to set up a fallback mechanism for client-side routing.
- * This ensures that paths used by React Router, which do not correspond to
- * actual server endpoints, are always forwarded back to index.html.
+ * Ensures all non-API and non-static file requests are forwarded to index.html.
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     /**
      * Registers a view controller that forwards all non-API paths 
-     * and non-static file requests back to the root ('/').
-     * The React application's index.html handles the routing from there.
+     * and non-static file requests back to the index.html page.
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // Forwards paths that look like they could be React routes (e.g., /products or /user/123)
-        // to the root path ('/').
-        
-        // This handles paths with no trailing slash
+        // Handle root URL explicitly to ensure index.html is the default view
+        registry.addViewController("/")
+                .setViewName("forward:/index.html");
+
+        // Forward paths with no trailing slash (e.g., /products) to index.html
         registry.addViewController("/{spring:[\\w-]+}")
-                .setViewName("forward:/"); 
+                .setViewName("forward:/index.html"); 
         
-        // This handles paths with multiple segments (e.g., /admin/dashboard)
+        // Forward paths with multiple segments (e.g., /admin/dashboard) to index.html
         registry.addViewController("/**/{spring:[\\w-]+}")
-                .setViewName("forward:/");
-        
-        // Note: Requests starting with /api (your controllers) or 
-        // requests for existing static assets (e.g., /main.js) are naturally ignored by these patterns.
+                .setViewName("forward:/index.html");
     }
 }
