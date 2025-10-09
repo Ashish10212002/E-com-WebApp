@@ -1,6 +1,6 @@
 # --- STAGE 1: BUILD (Use standard Maven base image) ---
-# Simplified tag: Maven 3 with any JDK 17
-FROM maven:3-jdk-17 AS build 
+# Simplified tag: Maven 3 with OpenJDK 17
+FROM maven:3.9-openjdk-17 AS build 
 WORKDIR /app
 COPY . .
 # Run the Maven command to compile and create the JAR file in the 'target' folder
