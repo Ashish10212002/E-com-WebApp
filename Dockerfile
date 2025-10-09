@@ -19,3 +19,5 @@ EXPOSE 8080
 
 # Command to run the JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# To build the Docker image, run:
