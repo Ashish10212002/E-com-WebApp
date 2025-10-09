@@ -8,7 +8,7 @@ RUN mvn clean package -DskipTests
 
 # --- STAGE 2: RUN (Use lighter JRE image) ---
 # Using the official OpenJDK JRE 17 slim image for runtime
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jre-slim-buster
 WORKDIR /app
 # Copy the built JAR file from the 'build' stage memory
 COPY --from=build /app/target/web-proj-0.0.1-SNAPSHOT.jar app.jar
