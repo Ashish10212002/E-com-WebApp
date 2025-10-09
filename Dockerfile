@@ -1,10 +1,10 @@
 # --- STAGE 1: BUILD (Creates the JAR) ---
-# Using Eclipse Temurin JDK 17 Alpine image for a reliable build environment
-FROM eclipse-temurin:17-jdk-alpine AS build 
+# Using a Maven-specific image that guarantees the 'mvn' command is available.
+FROM maven:3-openjdk-17-slim AS build 
 WORKDIR /app
-# Copy the source code into the build container
+# Copy the source code into the build container (including pom.xml)
 COPY . .
-# Run the Maven command to compile and package the application
+# This command will now be recognized and executed
 RUN mvn clean package -DskipTests 
 
 # --- STAGE 2: RUN (Use lighter JRE image) ---
