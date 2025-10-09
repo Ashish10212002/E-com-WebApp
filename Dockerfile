@@ -1,17 +1,14 @@
-# --- STAGE 1: BUILD (Creates the JAR) ---
-# Use a Maven image which contains Java and the build tools
-FROM maven:3.9.6-openjdk-17 AS build
+# --- STAGE 1: BUILD (Use standard Maven base image) ---
+FROM maven:3-jdk-17 AS build # Simplified tag: Maven 3 with any JDK 17
 WORKDIR /app
-# Copy your entire source code into the build stage
 COPY . .
-# Run the Maven command to compile, test, and create the JAR in the 'target' folder
+# Run the Maven command to compile and create the JAR file in the 'target' folder
 RUN mvn clean package -DskipTests 
 
-# --- STAGE 2: RUN (Runs the JAR) ---
-# Use a lightweight JRE (Java Runtime Environment) image
+# --- STAGE 2: RUN (Use lighter JRE image) ---
 FROM openjdk:17-jre-slim
 WORKDIR /app
-# Copy the built JAR file from the 'build' stage into the run stage
+# Copy the built JAR file from the 'build' stage memory
 COPY --from=build /app/target/web-proj-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port 
@@ -19,5 +16,3 @@ EXPOSE 8080
 
 # Command to run the JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# To build the Docker image, run:
