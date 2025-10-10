@@ -2,12 +2,6 @@ package com.ashish.web_proj.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
