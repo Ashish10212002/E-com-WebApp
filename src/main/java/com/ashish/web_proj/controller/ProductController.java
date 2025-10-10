@@ -23,7 +23,7 @@ import com.ashish.web_proj.model.Product;
 import com.ashish.web_proj.service.ProductService;
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://e-com-frontend-eley.onrender.com/")
 
 @RestController
 @RequestMapping("/api")
