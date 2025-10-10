@@ -23,7 +23,8 @@ import com.ashish.web_proj.model.Product;
 import com.ashish.web_proj.service.ProductService;
 
 
-@CrossOrigin(origins ="http://localhost:5173")
+@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/api")
 public class ProductController {
