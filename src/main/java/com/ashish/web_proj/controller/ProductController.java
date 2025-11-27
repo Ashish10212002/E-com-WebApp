@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,9 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ashish.web_proj.model.Product;
 import com.ashish.web_proj.service.ProductService;
-import com.ashish.web_proj.repo.ProductSummary; // <<< NEW IMPORT
+//import com.ashish.web_proj.repo.ProductSummary; // <<< NEW IMPORT
 
-@CrossOrigin(origins = "https://e-com-frontend-eley.onrender.com/")
+@CrossOrigin(origins = "http://localhost:5173,https://e-com-frontend-eley.onrender.com/")
 
 @RestController
 @RequestMapping("/api")
@@ -35,7 +34,7 @@ public class ProductController {
     
     // UPDATED: Returns List<ProductSummary> (lightweight DTO)
     @GetMapping("/products")
-    public ResponseEntity<List<ProductSummary>> getAllProducts(){ // <<< CHANGED RETURN TYPE
+    public ResponseEntity<List<Product>> getAllProducts(){ // <<< CHANGED RETURN TYPE
         // Calls the service method which now returns ProductSummary list
         return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK); 
     }
@@ -66,15 +65,15 @@ public class ProductController {
         }
     }  
     
-    @GetMapping("/product/{productId}/image")
-    public ResponseEntity<byte[]> getImageByProductId (@PathVariable int productId){
-        // UNCHANGED: This is your dedicated image endpoint
-        
-        Product product = service.getProductById(productId);
-        byte[] imageFile = product.getImageDate();
-        return ResponseEntity.ok().contentType(MediaType.valueOf(product.getImageType()))
-                .body(imageFile); 
-    }
+//   @GetMapping("/product/{productId}/image")
+//    public ResponseEntity<byte[]> getImageByProductId (@PathVariable int productId){
+//        // UNCHANGED: This is your dedicated image endpoint
+//        
+//        Product product = service.getProductById(productId);
+//        byte[] imageFile = product.getImageDate();
+//        return ResponseEntity.ok().contentType(MediaType.valueOf(product.getImageType()))
+//                .body(imageFile); 
+//    }
 
     @PutMapping("/product/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable int id, @RequestPart Product product,
@@ -109,10 +108,10 @@ public class ProductController {
     
     // UPDATED: Returns List<ProductSummary> (lightweight DTO)
     @GetMapping("/product/search")
-    public ResponseEntity<List<ProductSummary>> searchProducts(@RequestParam String keyword){ // <<< CHANGED RETURN TYPE
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword){ // <<< CHANGED RETURN TYPE
         
         // The service method now returns the lightweight DTO list
-        List<ProductSummary> products = service.searchProducts(keyword); 
+        List<Product> products = service.searchProducts(keyword); 
         return new ResponseEntity<>(products, HttpStatus.OK);
         
     }
